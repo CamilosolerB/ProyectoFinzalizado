@@ -15,13 +15,15 @@ public class Login {
     
     Home log;
     
+    public static String user;
+    
     public Login(Home log){
         this.log = log;
     }
     
     public boolean iniciodesesion(){
         boolean check = false;
-        String user = log.getUser().getText();
+        user = log.getUser().getText();
         String password = log.getPassword().getText();
         LoginConst data = new LoginConst(user, password);
         Init in = new Init();

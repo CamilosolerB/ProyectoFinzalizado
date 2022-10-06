@@ -28,10 +28,29 @@ public class Usuario {
         String usuario = users.getUsuario().getText();
         String password = users.getPassword().getText();
         String perfil = users.getPerfil();
-        UsuarioConst userconst = new UsuarioConst(nombre, usuario, password, perfil);
-        if(consultausuario.insertarusuario(userconst)){
-            JOptionPane.showMessageDialog(null, "Insertado correctamente");
+        if(isNumeric(password)){
+            JOptionPane.showMessageDialog(null, "Contraseña no valida, debe tener una letra y/o simbolo");
         }
+        else{
+            UsuarioConst userconst = new UsuarioConst(nombre, usuario, password, perfil);
+            if(consultausuario.insertarusuario(userconst)){
+                JOptionPane.showMessageDialog(null, "Insertado correctamente");
+            }
+        }
+    }
+    
+    public static boolean isNumeric(String s){
+        if (s == null || s.equals("")) {
+            return false;
+        }
+        for (int i = 0; i < s.length(); i++)
+        {
+            char c = s.charAt(i);
+            if (c < '0' || c > '9') {
+                return false;
+            }
+        }
+        return true;
     }
 
 }

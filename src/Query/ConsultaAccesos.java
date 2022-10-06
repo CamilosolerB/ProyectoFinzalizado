@@ -30,7 +30,7 @@ public class ConsultaAccesos {
     
     //elimina los accesos que se tenga a una aplicacion
     public void ElminarAcceso(String Nombre_app, String Nombre_profile){
-        String user = JOptionPane.showInputDialog("Por favor indique su usuario");
+        String user = Login.user;
         int idapp = app.GetIdApp(Nombre_app);
         if(validarpermiso(idapp, user)){
             int[] valores = new int[2];
@@ -57,7 +57,7 @@ public class ConsultaAccesos {
     }
     //habilitar acceso a las aplicaciones
     public void PermitirAcceso(String Nombre_app, String Nombre_profile){
-        String user = JOptionPane.showInputDialog("Por favor indique su usuario");
+        String user = Login.user;
         int idapp = app.GetIdApp(Nombre_app);
         if(validarpermiso(idapp, user)){
             int[] valores = new int[2];

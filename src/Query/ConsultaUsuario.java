@@ -58,11 +58,11 @@ public class ConsultaUsuario {
             ConsultasPerfiles consultaperfil = new ConsultasPerfiles();
             int resultado = consultaperfil.GetIdPerfil(data.getPerfil());
             ps = mysql.prepareStatement("Update usuarios Set "
-                    + "usu_nombre=?,usu_password=?,us_perfil=? Where usu_usuario=?");
-            ps.setString(1, data.getNombre());
+                    + "usu_usuario=?,usu_password=?,us_perfil=? Where usu_nombre=?");
+            ps.setString(4, data.getNombre());
             ps.setString(2, data.getClave());
             ps.setInt(3, resultado);
-            ps.setString(4, data.getUsuario());
+            ps.setString(1, data.getUsuario());
             if(ps.executeUpdate()>0){
                 result = true;
             }

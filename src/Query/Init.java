@@ -24,7 +24,6 @@ public class Init {
     public boolean iniciarsesion(LoginConst cons){
         boolean check = false;
             try {
-                System.out.println(cons);
                 PreparedStatement ps = mysql.prepareStatement("Select * from usuarios "
                     + "Where usu_usuario = ? AND usu_password = ?");
                 ps.setString(1, cons.getUser());
