@@ -6,7 +6,14 @@
 package Views;
 
 import Controller.Aplicaciones;
+import static Views.Dashboard.path;
+import java.awt.Dimension;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,12 +26,31 @@ public class InsertApp extends javax.swing.JFrame {
      */
     public InsertApp() {
         initComponents();
+        type.removeAllItems();
+        type.addItem("Web");
+        type.addItem("Aplicaciòn");
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos .exe .msi .appx .msix .zip","zip","exe","msi","appx","msix");
+        Setup.setFileFilter(filtro);
     }
 
     public JTextField getAplicacion() {
         return aplicacion;
     }
 
+    public JFileChooser getSetup() {
+        return Setup;
+    }
+
+    public JComboBox<String> getTypo() {
+        return type;
+    }
+
+    public JTextField getUrl() {
+        return url;
+    }
+
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,9 +60,16 @@ public class InsertApp extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Setup = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         aplicacion = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
+        type = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        url = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -55,12 +88,39 @@ public class InsertApp extends javax.swing.JFrame {
                 aplicacionActionPerformed(evt);
             }
         });
-        jPanel1.add(aplicacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 180, 200, 40));
+        jPanel1.add(aplicacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 110, 200, 40));
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Nombre aplicacion");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, -1, -1));
+        jLabel4.setText("Tipo de aplicacion");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, -1, -1));
+
+        type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(type, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 190, 200, 40));
+
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setText("Setup o zip (en caso de ser pagina app)");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 320, -1, -1));
+
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("Nombre aplicacion");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, -1, -1));
+        jPanel1.add(url, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 200, 40));
+
+        jButton1.setText("Subir Setup");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, -1, 40));
+
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("URL (en caso de ser pagina web)");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 240, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 360, 400));
 
@@ -115,6 +175,16 @@ public class InsertApp extends javax.swing.JFrame {
         app.agregaraplicacion();
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int returnvalt = Setup.showOpenDialog(this);
+        if(returnvalt == JFileChooser.APPROVE_OPTION){
+            path = Setup.getSelectedFile().getPath();
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Archivo no seleccionado");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -152,13 +222,20 @@ public class InsertApp extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JFileChooser Setup;
     private javax.swing.JTextField aplicacion;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JComboBox<String> type;
+    private javax.swing.JTextField url;
     // End of variables declaration//GEN-END:variables
 }

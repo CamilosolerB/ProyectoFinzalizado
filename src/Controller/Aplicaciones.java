@@ -8,6 +8,7 @@ package Controller;
 import Constructors.AppConst;
 import Query.ConsultaApp;
 import Views.InsertApp;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
@@ -23,7 +24,14 @@ public class Aplicaciones {
     
     public void agregaraplicacion(){
         String nombre = insertapp.getAplicacion().getText();
-        AppConst appconst = new AppConst(nombre);
+        String url = insertapp.getUrl().getText();
+        String type = insertapp.getTypo().getSelectedItem().toString();
+        int vtype = (type.equals("Web")) ? 1 : 2;
+        if(url.equals("")){
+            JFileChooser file = insertapp.getSetup();
+            url = file.getSelectedFile().getPath();
+        }
+        AppConst appconst = new AppConst(nombre, vtype, url);
         ConsultaApp consultaapp = new ConsultaApp();
         if(consultaapp.InsertarAplicacion(appconst)){
             JOptionPane.showMessageDialog(null, "Aplicacion agragada con exito");

@@ -10,14 +10,17 @@ import Constructors.UsuarioConst;
 import java.sql.*;
 import Query.ConsultaApp;
 import Query.ConsultaUsuario;
+import Views.Dashboard;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
@@ -36,6 +39,7 @@ public class GenerarExcel {
     Conexion con = new Conexion();
     Connection mysql = con.connecdb();
     ConsultaApp appCons = new ConsultaApp();
+    DataFormatter formatter = new DataFormatter();
     PreparedStatement ps;
     ResultSet rs;
     
@@ -122,6 +126,36 @@ public class GenerarExcel {
         }
     }
     
+    public DefaultTableModel previous(){
+        FileInputStream file;
+        DefaultTableModel tabla = new DefaultTableModel();
+        String data[] = new String[5];
+        tabla.addColumn("ID");
+        tabla.addColumn("Nombre");
+        tabla.addColumn("Usuario");
+        tabla.addColumn("Contraseña");
+        tabla.addColumn("Perfil");
+        try {
+            file = new FileInputStream(new File(Dashboard.path));
+            HSSFWorkbook book = new HSSFWorkbook(file);
+            HSSFSheet sheet = book.getSheetAt(0);
+            for(int i = 2; i <= sheet.getLastRowNum(); i++){
+                HSSFRow fila = sheet.getRow(i);
+                int id = (int) fila.getCell(1).getNumericCellValue();
+                data[0] = id + "";
+                data[1] = fila.getCell(2).getStringCellValue();
+                data[2] = fila.getCell(3).getStringCellValue();
+                data[3] = formatter.formatCellValue(fila.getCell(4));
+                data[4] = fila.getCell(5).getStringCellValue();
+                tabla.addRow(data);
+            }
+        } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return tabla;
+    }
     public void ReadExcel (String ruta){
         try {
             FileInputStream file = new FileInputStream(new File(ruta));

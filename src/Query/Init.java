@@ -21,6 +21,8 @@ public class Init {
     ResultSet rs;
     Home home = new Home();
     
+    public static int id_perfil;
+    
     public boolean iniciarsesion(LoginConst cons){
         boolean check = false;
             try {
@@ -31,6 +33,7 @@ public class Init {
                 rs = ps.executeQuery();
                 if(rs.next()){
                     check = true;
+                    id_perfil = rs.getInt("us_perfil");
                 }
             } 
             catch (SQLException e) {

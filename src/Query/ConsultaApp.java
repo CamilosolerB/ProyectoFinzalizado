@@ -7,8 +7,13 @@ package Query;
 
 import Conexion.Conexion;
 import Constructors.AppConst;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -19,18 +24,32 @@ import javax.swing.table.DefaultTableModel;
 public class ConsultaApp {
     Conexion con = new Conexion();
     Connection mysql = con.connecdb();
-    PreparedStatement ps;
+    PreparedStatement ps, ps2;
     ResultSet rs, rs2;
     ConsultasPerfiles consulta = new ConsultasPerfiles();
+    FileInputStream file;
+    public static String link;
     
     public boolean InsertarAplicacion(AppConst app){
         boolean check = false;
         try {
-            ps = mysql.prepareStatement("Insert into programas (Pro_nombre_programa)"
-                    + " VALUES (?)");
-            ps.setString(1, app.getNombre());
-            if(ps.executeUpdate() > 0){
-                check = true;
+            if(!"".equals(app.getUrl())){
+                ps = mysql.prepareStatement("Insert into programas (Pro_nombre_programa,Pro_tipo,Pro_link)"
+                        + " VALUES (?,?,?)");
+                ps.setString(1, app.getNombre());
+                ps.setInt(2, app.getType());
+                ps.setString(3, app.getUrl());
+                if(ps.executeUpdate() > 0){
+                    int id = last_id();
+                    ps2 = mysql.prepareStatement("Insert into acceso (acc_id_per,acc_id_pro ) VALUES (2,?)");
+                    ps2.setInt(1, id);
+                    if(ps2.executeUpdate() > 0){
+                        check = true;
+                    }
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "No se encuentra la ruta o el directorio seleccionado, por favor validar");
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
@@ -113,5 +132,50 @@ public class ConsultaApp {
             JOptionPane.showMessageDialog(null, e);
         }
         return id;
+    }
+    public ArrayList<String> GetPersonalApps(){
+        ArrayList<String> lista = new ArrayList<>();
+        try {
+            ps = mysql.prepareStatement("Select Pro_nombre_programa from programas "
+                    + "inner join acceso on (Pro_id=acc_id_pro) Where acc_id_per=?");
+            ps.setInt(1, Init.id_perfil);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                lista.add(rs.getString(1));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultaApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
+    }
+    
+    public Integer last_id(){
+        int valor = 0;
+        try {
+            ps = mysql.prepareStatement("Select max(Pro_id) as id_p from programas");
+            rs2 = ps.executeQuery();
+            if(rs2.next()){
+                valor = rs2.getInt("id_p");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultaApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return valor;
+    }
+    
+    public Integer TipoDeApp(String nombre){
+        int valor = 0;
+        try {
+            ps = mysql.prepareStatement("Select Pro_tipo,Pro_link from programas Where Pro_nombre_programa=?");
+            ps.setString(1, nombre);
+            rs2 = ps.executeQuery();
+            if(rs2.next()){
+                valor = rs2.getInt("Pro_tipo");
+                link = rs2.getString("Pro_link");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ConsultaApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return valor;
     }
 }

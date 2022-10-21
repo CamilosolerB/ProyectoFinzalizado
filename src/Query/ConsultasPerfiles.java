@@ -9,7 +9,6 @@ import Conexion.Conexion;
 import Constructors.PerfilConst;
 import java.util.ArrayList;
 import java.sql.*;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 

@@ -4,25 +4,52 @@
  */
 package Views;
 
+import Constructors.UsuarioConst;
 import Controller.GenerarExcel;
+import Controller.Usuario;
+import Controller.exec;
+import Query.ConsultaApp;
+import Query.ConsultaUsuario;
+import Query.ConsultasPerfiles;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author camilo.soler
  */
-public class Dashboard extends javax.swing.JFrame {
-    
+public class Dashboard extends javax.swing.JFrame implements ActionListener{
+    public static String path;
     GenerarExcel excel = new GenerarExcel();
+    ConsultasPerfiles perfil = new ConsultasPerfiles();
     /**
      * Creates new form Dashboard
      */
     public Dashboard() {
         initComponents();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos .xls version antigua","xls");
+        FileChooser.setFileFilter(filtro);
+        scroll();
     }
 
+    private void scroll(){
+        ConsultaApp app = new ConsultaApp();
+        ArrayList<String> lista = new ArrayList<>();
+        lista = app.GetPersonalApps();
+        for(int i = 0; i < lista.size() ; i++){
+            JMenuItem item = new JMenuItem(lista.get(i));
+            item.addActionListener(this);
+            misaplicaciones.add(item);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -32,6 +59,16 @@ public class Dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        frame = new javax.swing.JFrame();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        previsualizacion = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
+        jLabel4 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         FileChooser = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -39,6 +76,7 @@ public class Dashboard extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        jLayeredPane1 = new javax.swing.JLayeredPane();
         jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -53,6 +91,58 @@ public class Dashboard extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
+        misaplicaciones = new javax.swing.JMenu();
+
+        frame.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        previsualizacion.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(previsualizacion);
+
+        jPanel3.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 610, 290));
+
+        jLabel3.setText("¿Estas seguro de querer modificar los datos de esta manera?");
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, 590, 30));
+
+        jScrollPane2.setViewportView(jTextPane1);
+
+        jPanel3.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 270, -1, -1));
+
+        jLabel4.setText("Puedes modificar los datos desde aqui ");
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, 460, -1));
+
+        jButton4.setBackground(new java.awt.Color(108, 137, 224));
+        jButton4.setText("Aceptar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 380, -1, -1));
+
+        jButton5.setBackground(new java.awt.Color(240, 43, 43));
+        jButton5.setForeground(new java.awt.Color(255, 255, 255));
+        jButton5.setText("Cancelar");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jPanel3.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 380, -1, -1));
+
+        frame.getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 692, 420));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -87,6 +177,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel2.setText("Opciones");
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, -1, -1));
+        jPanel2.add(jLayeredPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-20, -40, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, 230, 290));
 
@@ -190,11 +281,25 @@ public class Dashboard extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu4);
 
+        misaplicaciones.setText("Mis aplicaciones");
+        misaplicaciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                misaplicacionesMouseClicked(evt);
+            }
+        });
+        misaplicaciones.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                misaplicacionesActionPerformed(evt);
+            }
+        });
+        jMenuBar1.add(misaplicaciones);
+
         setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         TableUsers user = new TableUsers();
         user.setVisible(true);
@@ -232,12 +337,21 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        GenerarExcel excel = new GenerarExcel();
         int returnvalt = FileChooser.showOpenDialog(this);
         FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos excel","xls");
         FileChooser.setFileFilter(filtro);
         if(returnvalt == JFileChooser.APPROVE_OPTION){
-            String path = FileChooser.getSelectedFile().getPath();
-            excel.ReadExcel(path);
+            path = FileChooser.getSelectedFile().getPath();
+            frame.setVisible(true);
+            frame.setLocationRelativeTo(null);
+            frame.setMinimumSize(new Dimension(700,450));
+            DefaultTableModel modelo = new DefaultTableModel();
+            modelo = excel.previous();
+            previsualizacion.setModel(modelo);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Archivo no seleccionado");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -281,6 +395,83 @@ public class Dashboard extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        frame.setVisible(false);
+        JOptionPane.showMessageDialog(null, "Operacion cancelada");
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        int object = JOptionPane.showConfirmDialog(null, "Estas seguro de realizar estos cambios");
+        boolean check  = true;
+        if(object == 0){
+            for(int i = 0; i < previsualizacion.getRowCount(); i++){
+                check = this.validarcampos(i);
+                String nombre_perfil = previsualizacion.getValueAt(i, 4).toString();
+                nombre_perfil = nombre_perfil.toUpperCase().charAt(0) + nombre_perfil.substring(1, nombre_perfil.length()).toLowerCase();
+                    if(Usuario.isNumeric(previsualizacion.getValueAt(i, 3).toString())){
+                        JOptionPane.showMessageDialog(null, "La contraseña no puede ser un numero, debe tener letras o simbolos especiales, valida en la fila: "+(i+1));
+                        check = false;
+                    }
+                    else if(perfil.GetIdPerfil(nombre_perfil) == 0){
+                        JOptionPane.showMessageDialog(null, "El perfil en la fila "+(i+1)+" no se encuentra en la base de datos por favor validar");
+                        check = false;
+                    }
+                if(check == false){
+                    i = previsualizacion.getRowCount();
+                }
+            }
+            if(check){
+                for(int i = 0; i < previsualizacion.getRowCount(); i++){
+                int id = Integer.parseInt(previsualizacion.getValueAt(i, 0).toString());
+                UsuarioConst user = new UsuarioConst(id);
+                ConsultaUsuario userConst = new ConsultaUsuario();
+                String nombre = previsualizacion.getValueAt(i, 1).toString();
+                String usuario = previsualizacion.getValueAt(i, 2).toString();
+                String clave = previsualizacion.getValueAt(i, 3).toString();
+                String perfil = previsualizacion.getValueAt(i, 4).toString();
+                if(userConst.validarexistencia(user)){                   
+                    UsuarioConst usuConst = new UsuarioConst(id,nombre, usuario, clave, perfil);
+                    ConsultaUsuario user2 = new ConsultaUsuario();
+                    user2.actualizarusuario(usuConst);
+                }
+                else{
+                    UsuarioConst usuConst = new UsuarioConst(id,nombre, usuario, clave, perfil);
+                    ConsultaUsuario users = new ConsultaUsuario();
+                    users.insertarusuario(usuConst);
+                }
+                }
+                JOptionPane.showMessageDialog(null, "Los usuarios se han asignado correctamente");
+                frame.setVisible(false);
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Operacion cancelada");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void misaplicacionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_misaplicacionesMouseClicked
+
+    }//GEN-LAST:event_misaplicacionesMouseClicked
+
+    private void misaplicacionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_misaplicacionesActionPerformed
+
+    }//GEN-LAST:event_misaplicacionesActionPerformed
+
+    private boolean validarcampos(int fila){
+        boolean check=true;
+        String identificador = previsualizacion.getValueAt(fila, 0).toString();
+        String nombre = previsualizacion.getValueAt(fila, 1).toString();
+        String usuario = previsualizacion.getValueAt(fila, 2).toString();
+        String clave = previsualizacion.getValueAt(fila, 3).toString();
+        String perfil = previsualizacion.getValueAt(fila, 4).toString();
+        if(identificador.isEmpty() || nombre.isEmpty() || usuario.isEmpty()
+            || clave.isEmpty() || perfil.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Hay celdas vacias en la fila "+(fila+1));
+            JOptionPane.showMessageDialog(null, "Operacion fallida");
+            check = false;
+        }
+        return check;
+    }
     /**
      * @param args the command line arguments
      */
@@ -318,12 +509,18 @@ public class Dashboard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFileChooser FileChooser;
+    private javax.swing.JFrame frame;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -338,5 +535,18 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JMenu misaplicaciones;
+    private javax.swing.JTable previsualizacion;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        System.out.println(e.getActionCommand());
+        exec exec = new exec();
+        exec.abrirapps(e.getActionCommand());
+    }
 }
